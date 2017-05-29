@@ -1,0 +1,68 @@
+#spinner-loading {
+    position: fixed; /* or absolute */
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -48px;
+}
+
+.cssload-container{
+    display: block;
+    width:50px;
+}
+
+.cssload-loading i{
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    background: rgb(255,89,84);
+    border-radius: 50%;
+}
+.cssload-loading i:nth-child(1){
+    animation:cssload-loading-ani1 1.15s ease-in-out infinite;
+    -o-animation:cssload-loading-ani1 1.15s ease-in-out infinite;
+    -ms-animation:cssload-loading-ani1 1.15s ease-in-out infinite;
+    -webkit-animation:cssload-loading-ani1 1.15s ease-in-out infinite;
+    -moz-animation:cssload-loading-ani1 1.15s ease-in-out infinite;
+
+}
+.cssload-loading i:nth-child(2){
+    background: rgb(0,168,206);
+    margin-left: -10px;
+    animation:cssload-loading-ani1 1.15s ease-in-out 0.58s infinite;
+    -o-animation:cssload-loading-ani1 1.15s ease-in-out 0.58s infinite;
+    -ms-animation:cssload-loading-ani1 1.15s ease-in-out 0.58s infinite;
+    -webkit-animation:cssload-loading-ani1 1.15s ease-in-out 0.58s infinite;
+    -moz-animation:cssload-loading-ani1 1.15s ease-in-out 0.58s infinite;
+}
+
+
+@keyframes cssload-loading-ani1{
+    70%{
+        transform:scale(0.5);
+    }
+}
+
+@-o-keyframes cssload-loading-ani1{
+    70%{
+        -o-transform:scale(0.5);
+    }
+}
+
+@-ms-keyframes cssload-loading-ani1{
+    70%{
+        -ms-transform:scale(0.5);
+    }
+}
+
+@-webkit-keyframes cssload-loading-ani1{
+    70%{
+        -webkit-transform:scale(0.5);
+    }
+}
+
+@-moz-keyframes cssload-loading-ani1{
+    70%{
+        -moz-transform:scale(0.5);
+    }
+}

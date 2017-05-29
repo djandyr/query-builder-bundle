@@ -1,0 +1,31 @@
+{
+  "name": "littlerobinson/querybuilder-symfony-bundle",
+  "description": "Symfony library for creating query builder with JSON input.",
+  "keywords": [
+    "querybuilder",
+    "reflection",
+    "php",
+    "doctrine"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alexandre André",
+      "email": "2a.alexandre@gmail.com",
+      "homepage": "https://www.littlerobinson.xyz",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^5.5|^7.0|^7.1",
+    "symfony/framework-bundle": ">=3.0",
+    "twig/twig": "*",
+    "doctrine/doctrine-bundle": "*"
+  },
+  "autoload": {
+    "psr-0": {
+      "LittleRobinson\\QueryBuilderBundle": ""
+    }
+  },
+  "target-dir": "Littlerobinson/QueryBuilderBundle"
+}
