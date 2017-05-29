@@ -1,5 +1,6 @@
 # Parameters
 Resources/config/*
+!Resources/config/routing.yml
 !Resources/config/config-dist.yml
 !Resources/config/security-dist.yml
 

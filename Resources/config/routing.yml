@@ -1,0 +1,7 @@
+littlerobinson_query_builder_homepage:
+    path:     /
+    defaults: { _controller: LittlerobinsonQueryBuilderBundle:QueryBuilder:index }
+
+littlerobinson_query_builder_query:
+    path:     /query
+    defaults: { _controller: LittlerobinsonQueryBuilderBundle:QueryBuilder:query }
