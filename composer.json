@@ -1,5 +1,5 @@
 {
-  "name": "littlerobinson/querybuilder-symfony-bundle",
+  "name": "littlerobinson/query-builder-bundle",
   "description": "Symfony library for creating query builder with JSON input.",
   "keywords": [
     "querybuilder",
@@ -24,7 +24,7 @@
   },
   "autoload": {
     "psr-4": {
-      "LittleRobinson\\QuerybuilderSymfonyBundle\\": ""
+      "LittleRobinson\\QueryBuilderBundle\\": ""
     }
   }
 }
