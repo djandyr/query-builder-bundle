@@ -5,6 +5,7 @@ namespace Littlerobinson\QueryBuilderBundle\Controller;
 use Littlerobinson\QueryBuilderBundle\Utils\RunQueryBuilder;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
 
 class QueryBuilderController extends Controller
@@ -14,9 +15,11 @@ class QueryBuilderController extends Controller
      */
     public function indexAction()
     {
-        setcookie('school', 1);
-        setcookie('EDUCTIVEAUTH', 'eyJ0eXAiOi');
-        return $this->render('LittlerobinsonQueryBuilderBundle:QueryBuilder:index.html.twig');
+        $cookie   = new Cookie('school', 1);
+        $response = new Response();
+        $response->headers->setCookie($cookie, time() + 3600);
+        $response->setContent($this->container->get('twig')->render('LittlerobinsonQueryBuilderBundle:QueryBuilder:query_layout.html.twig', []));
+        return $response;
     }
 
     /**
@@ -25,7 +28,8 @@ class QueryBuilderController extends Controller
      */
     public function queryAction()
     {
-        RunQueryBuilder::execute();
+        $run = RunQueryBuilder::getInstance($this->container);
+        $run->execute();
         return new Response();
     }
 }

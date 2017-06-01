@@ -2,7 +2,6 @@
 Resources/config/*
 !Resources/config/routing.yml
 !Resources/config/config-dist.yml
-!Resources/config/security-dist.yml
 !Resources/config/services.yml
 
 # Symfony

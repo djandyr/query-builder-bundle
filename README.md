@@ -7,6 +7,29 @@ A developer can modify certain values ​​in the configuration file to, for ex
 The applicant Builder takes as input a json file with the fields to request as well as the conditions.
 From this file it will construct the query, execute it and return the result.
 
+## Installation
+
+- Get the vendor
+```
+composer require littlerobinson/query-builder-bundle
+```
+
+- Routing 
+```
+LittlerobinsonQueryBuilderBundle:
+    resource: "@LittlerobinsonQueryBuilderBundle/Resources/config/routing.yml"
+    prefix:   /querybuilder
+```
+
+- Get assets
+```
+php bin/console assets:install --symlink
+```
+
+- Config file
+
+- Template, extra block
+
 ## Example
 
 ### Configuration file

@@ -1,4 +1,11 @@
 services:
-#    littlerobinson_query_builder.example:
-#        class: Littlerobinson\QueryBuilderBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    littlerobinson.doctrine_database:
+        class: Littlerobinson\QueryBuilderBundle\Utils\DoctrineDatabase
+        autowire: true
+    littlerobinson.query_builder_doctrine:
+        class: Littlerobinson\QueryBuilderBundle\Utils\QueryBuilderDoctrine
+        autowire: true
+    littlerobinson.query_backup:
+        class: Littlerobinson\QueryBuilderBundle\Utils\QueryBackup
+        autowire: true
+

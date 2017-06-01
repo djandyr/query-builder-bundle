@@ -17,6 +17,9 @@
     {% endblock %}
 </head>
 <body>
+
+{% block extra %}{% endblock %}
+
 {% verbatim %}
 <!-- component for select template -->
 <script type="text/x-template" id="select-item">
@@ -275,8 +278,8 @@
                                         >
                                             Recherche
                                         </button>
-                                        <form method="post" action="{{ path('query') }}">
-                                            <input type="hidden" name="action" value="spreadsheet">
+                                        <form method="post" action="query">
+                                            <input type="hidden" name="action_query_builder" value="spreadsheet">
                                             <input type="hidden" name="columns" v-model="JSON.stringify(columns)">
                                             <input type="hidden" name="data" v-model="JSON.stringify(data)">
                                             <input type="submit" value="Extraire" class="btn btn-info pull-right"

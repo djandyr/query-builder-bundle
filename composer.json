@@ -20,7 +20,8 @@
     "php": "^5.5|^7.0|^7.1",
     "symfony/framework-bundle": ">=3.0",
     "twig/twig": "*",
-    "doctrine/doctrine-bundle": "*"
+    "doctrine/doctrine-bundle": "*",
+    "phpoffice/phpexcel": "~1.8"
   },
   "autoload": {
     "psr-4": {

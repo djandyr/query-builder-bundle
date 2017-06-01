@@ -18,11 +18,45 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('littlerobinson_query_builder');
+        $rootNode    = $treeBuilder->root('littlerobinson_query_builder');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode->
+        children()
+            ->arrayNode('database')
+            ->children()
+            ->scalarNode('title')->end()
+            ->booleanNode('is_dev_mode')->end()
+            ->scalarNode('config_path')->end()
+            ->scalarNode('file_name')->end()
+            ->arrayNode('params')
+            ->children()
+            ->scalarNode('driver')->end()
+            ->scalarNode('host')->end()
+            ->scalarNode('port')->end()
+            ->scalarNode('user')->end()
+            ->scalarNode('password')->end()
+            ->scalarNode('dbname')->end()
+            ->scalarNode('charset')->end()
+            ->end()
+            ->end()
+            ->end()
+            ->end()
+            ->arrayNode('user')
+            ->children()
+            ->scalarNode('name')->end()
+            ->scalarNode('type')->end()
+            ->end()
+            ->end()
+            ->arrayNode('association')
+            ->children()
+            ->scalarNode('name')->end()
+            ->scalarNode('type')->end()
+            ->end()
+            ->end()
+            ->variableNode('rules')->end()
+            ->variableNode('security')->end()
+            ->end();
+
 
         return $treeBuilder;
     }

@@ -4,6 +4,7 @@ namespace Littlerobinson\QueryBuilderBundle\Utils;
 
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -35,15 +36,17 @@ class DoctrineDatabase
 
     /**
      * DoctrineDatabase constructor.
+     * @param Container $container
      */
-    public function __construct()
+    public function __construct(Container $container)
     {
-        $database            = Yaml::parse(file_get_contents(__DIR__ . '/../Resources/config/config.yml'))['database'];
-        $this->databaseTitle = $database['title'];
-        $this->databaseRules = Yaml::parse(file_get_contents(__DIR__ . '/../Resources/config/security.yml'))['database'];
-        $this->configuration = Setup::createAnnotationMetadataConfiguration([], $database['is_dev_mode']);
-        $this->configPath    = __DIR__ . '/..' . $database['config_path'];
-        $this->entityManager = EntityManager::create($database['params'], $this->configuration);
+        $rootDir             = $container->get('kernel')->getRootDir();
+        $config              = Yaml::parse(file_get_contents($rootDir . '/config/config.yml'))['littlerobinson_query_builder'];
+        $this->databaseTitle = $config['database']['title'];
+        $this->databaseRules = $config['security']['database'];
+        $this->configuration = Setup::createAnnotationMetadataConfiguration([], $config['database']['is_dev_mode']);
+        $this->configPath    = $rootDir . '/config/' . $config['database']['config_path'];
+        $this->entityManager = EntityManager::create($config['database']['params'], $this->configuration);
         $this->connection    = $this->entityManager->getConnection();
         $this->schemaManager = $this->connection->getSchemaManager();
         $this->tables        = $this->schemaManager->listTableNames();

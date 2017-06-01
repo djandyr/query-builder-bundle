@@ -2,6 +2,7 @@
 
 namespace Littlerobinson\QueryBuilderBundle\Utils;
 
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -39,32 +40,35 @@ class QueryBuilderDoctrine
     /**
      * QueryBuilderDoctrine constructor.
      * @param DoctrineDatabase $doctrineDb
+     * @param Container $container
      */
-    public function __construct(DoctrineDatabase $doctrineDb)
+    public function __construct(DoctrineDatabase $doctrineDb, Container $container)
     {
+        $rootDir             = $container->get('kernel')->getRootDir();
         $this->doctrineDb    = $doctrineDb;
         $this->queryBuilder  = $this->doctrineDb->getEntityManager()->createQueryBuilder();
         $dbConfig            = $this->doctrineDb->getDatabaseYamlConfig(true);
         $this->objDbConfig   = json_decode($dbConfig);
         $this->fromAliasList = [];
-        $this->configRules   = [];
-        $this->setConfigRules();
+        $this->configRules   = null;
+        $this->setConfigRules($rootDir);
     }
 
     /**
      * Set the configuration rules (example for restriction in the database with a cookie or a session)
      */
-    private function setConfigRules()
+    private function setConfigRules($rootDir)
     {
-        $configPath = '/../Resources/config/config.yml';
-        if (!file_get_contents(__DIR__ . $configPath) || !array_key_exists('rules', Yaml::parse(file_get_contents(__DIR__ . $configPath)))) {
+        $config = Yaml::parse(file_get_contents($rootDir . '/config/config.yml'))['littlerobinson_query_builder'];
+        if (!array_key_exists('rules', $config)) {
             return;
         }
-        $ymlConfigRules = Yaml::parse(file_get_contents(__DIR__ . $configPath))['rules'];
+        $ymlConfigRules = $config['rules'];
+
         if (!is_array($ymlConfigRules)) {
             return;
         }
-        $rules = [];
+        $rules = null;
         foreach ($ymlConfigRules as $key => $rule) {
             if (!array_key_exists($key, $_COOKIE)) {
                 continue;
@@ -265,7 +269,8 @@ class QueryBuilderDoctrine
         if (array_key_exists($fromTable, $this->doctrineDb->getDatabaseRules())) {
             $rules = $this->doctrineDb->getDatabaseRules()[$fromTable];
         }
-        if (null !== $rules) {
+
+        if (null !== $rules && null !== $this->configRules) {
             foreach ($rules as $keyRule => $rule) {
                 /// Case from table is the same as the table rule
                 if ($keyRule === $fromTable) {
@@ -305,7 +310,7 @@ class QueryBuilderDoctrine
                     $fromAlias = $alias;
                 }
                 /// Add rule condition
-                if ($addWhere && null !== $join && array_key_exists($join, $this->configRules)) {
+                if ($addWhere && null !== $join && null !== $this->configRules && array_key_exists($join, $this->configRules)) {
                     $configCondition = is_array($this->configRules[$join]) ? implode(',', $this->configRules[$join]) : $this->configRules[$join];
                     if (is_array($this->configRules[$join])) {
                         $this->queryBuilder->andWhere($alias . ' . ' . $fkForeignColumns . ' IN (' . $configCondition . ')');
@@ -397,7 +402,6 @@ class QueryBuilderDoctrine
             $joinType = (sizeof($this->objDbConfig->{$fromTable}->{'_primary_key'}) > 1) ? 'innerJoin' : 'leftJoin';
             $this->addQuerySelect($this->fkFrom, $fromTable, $select, $fromAlias, $joinType);
         }
-
         /// Adding query conditions
         $this->addQueryCondition();
 
