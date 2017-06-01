@@ -1,4 +1,5 @@
 # Query Builder Symfony
+
 Generates queries dynamically on a database.
 The tool allows to set up the configuration of a database in a YML file.
 
@@ -9,24 +10,51 @@ From this file it will construct the query, execute it and return the result.
 
 ## Installation
 
-- Get the vendor
+- Install the vendor package
 ```
 composer require littlerobinson/query-builder-bundle
 ```
 
-- Routing 
+- Create the route 
 ```
+# /app/config/routing.yml
+
 LittlerobinsonQueryBuilderBundle:
     resource: "@LittlerobinsonQueryBuilderBundle/Resources/config/routing.yml"
     prefix:   /querybuilder
 ```
 
-- Get assets
+- Create the symlink for assets
 ```
 php bin/console assets:install --symlink
 ```
 
-- Config file
+- Add configuration
+```
+# /app/config/config.yml
+
+littlerobinson_query_builder:
+    database:
+        title: Software name
+        is_dev_mode: false
+        config_path: database-config.yml
+        file_name: querybuilder_db_name
+        params:
+            driver: pdo_mysql
+            host: 127.0.0.1
+            port: 3306
+            user: root
+            password: root
+            dbname: database_name
+            charset: utf8mb4
+    user: { name: user_id, type: cookie }
+    association: { name: group_id, type: cookie }
+    rules:
+        user_id: { type: cookie }
+    security:
+        database:
+            post: post.user
+```
 
 - Template, extra block
 
