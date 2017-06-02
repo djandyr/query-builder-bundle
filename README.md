@@ -127,6 +127,10 @@ littlerobinson_query_builder:
         database:
             post: post.user
 ```
+- Set restriction (cookie or session)
+```
+user_id = 1 OR user_id = [1,2]
+```
 
 ### Configuration file
 
