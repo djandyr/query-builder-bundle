@@ -16,6 +16,9 @@ composer require littlerobinson/query-builder-bundle
 ```
 
 - Create the route 
+
+Use the bundle route :
+
 ```
 # /app/config/routing.yml
 
@@ -23,6 +26,75 @@ LittlerobinsonQueryBuilderBundle:
     resource: "@LittlerobinsonQueryBuilderBundle/Resources/config/routing.yml"
     prefix:   /querybuilder
 ```
+
+Or Create your own controller and view (with annotation) :
+
+```php
+# /AppBundle/Controller/YourController.php
+
+/**
+ * @Route("/querybuilder", name="query_builder")
+ * @return Response
+ */
+public function indexAction()
+{
+    return $this->render('querybuilder/index.html.twig');
+}
+
+/**
+ * @Method("POST")
+ * @Route("/querybuilder/query", name="query_builder_query")
+ * @return Response
+ */
+public function queryAction()
+{
+    $run = RunQueryBuilder::getInstance($this->container);
+    $run->execute();
+    return new Response();
+}
+```
+
+And customize the template :
+
+```twig
+# /app/Resources/views/index.html.twig
+{% extends 'LittlerobinsonQueryBuilderBundle:QueryBuilder:query_layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}"/>
+{% endblock %}
+
+{% block extra %}
+    <div class="query_builder_menu">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                            aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Gestion des inscrits</a>
+                </div>
+                <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{{ path('registrant_index') }}">Accueil</a></li>
+                        <li><a href="{{ path('query_builder') }}">Requêteur</a></li>
+                        <li><a>{{ app.user.firstName }} {{ app.user.Lastname }}</a></li>
+                        <li><a href={{ path('logout') }}>Déconnexion</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+{% endblock %}
+```
+
+
+
 
 - Create the symlink for assets
 ```
@@ -55,10 +127,6 @@ littlerobinson_query_builder:
         database:
             post: post.user
 ```
-
-- Template, extra block
-
-## Example
 
 ### Configuration file
 

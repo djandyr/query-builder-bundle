@@ -509,10 +509,10 @@ class QueryBuilderDoctrine
     public function spreadsheet(array $columns, array $data)
     {
         $spreadsheet = new Spreadsheet($columns, $data);
-        $spreadsheet->setCreator('Eductive GROUP');
-        $spreadsheet->setLastModifiedBy('Eductive GROUP');
-        $spreadsheet->setSubject('Résultat requête');
-        $spreadsheet->setTitle('Requête');
-        $spreadsheet->generate('Excel5', 'resultat_' . date('YmdHis'));
+        $spreadsheet->setCreator('Littlerobinson');
+        $spreadsheet->setLastModifiedBy('Littlerobinson');
+        $spreadsheet->setSubject('Result');
+        $spreadsheet->setTitle('Query');
+        $spreadsheet->generate('Excel5', 'result_' . date('YmdHis'));
     }
 }
