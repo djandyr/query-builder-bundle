@@ -291,6 +291,9 @@ class DoctrineDatabase
      */
     public function getDatabaseRules(): array
     {
+        if (null === $this->databaseRules) {
+            $this->databaseRules = [];
+        }
         return $this->databaseRules;
     }
 

@@ -8,7 +8,7 @@ A developer can modify certain values ​​in the configuration file to, for ex
 The applicant Builder takes as input a json file with the fields to request as well as the conditions.
 From this file it will construct the query, execute it and return the result.
 
-![alt text](doc/images/EDUCTIVE_ERP.jpg "Description goes here")
+![querybuilder](Resources/public/images/querybuilder.png "querybuilder")
 
 ## Installation
 
@@ -113,15 +113,28 @@ littlerobinson_query_builder:
             dbname: '%database_name%'
             user: '%database_user%'
             password: '%database_password%'
-            charset: utf8mb4
-    user: { name: user_id, type: cookie }
+            charset: utf8mb4    
+    user: { name: ~, type: ~ }
+    association: { name: ~, type: ~ }
+    rules: ~
+    security: ~
+```
+
+### Configuration with restrictions
+```
+# /app/config/config.yml
+
+...
+
+user: { name: user_id, type: cookie }
     association: { name: group_id, type: cookie }
-    rules: # You can also set to null
+    rules: 
         user_id: { type: cookie } 
-    security: # You can also set to null
+    security:
         database:
             post: post.user
 ```
+
 ### Set restriction (cookie or session).
 ```
 user_id = 1 OR user_id = [1,2]
