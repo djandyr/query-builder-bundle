@@ -179,7 +179,7 @@ user_id = 1 OR user_id = [1,2]
 {% endblock %}
 ```
 
-### Extra blockk.
+### Extra block.
 
 You can choose to modify or not display the save block and the request block
 
