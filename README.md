@@ -186,9 +186,9 @@ You can choose to modify or not display the save block and the request block
 ```twig
 # /app/Resources/views/index.html.twig
 ...
-{% save_block %}{% endblock %}
+{% block save_block %}{% endblock %}
 ...
-{% request_block %}{% endblock %}
+{% block request_block %}{% endblock %}
 ...
 ```
 
