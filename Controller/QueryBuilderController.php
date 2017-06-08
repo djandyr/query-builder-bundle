@@ -14,7 +14,9 @@ class QueryBuilderController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('LittlerobinsonQueryBuilderBundle:QueryBuilder:query_layout.html.twig');
+        return $this->render('LittlerobinsonQueryBuilderBundle:QueryBuilder:query_layout.html.twig', array(
+            'queryPath' => '/querybuilder/query'
+        ));
     }
 
     /**

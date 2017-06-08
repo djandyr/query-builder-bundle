@@ -8,16 +8,36 @@ A developer can modify certain values ​​in the configuration file to, for ex
 The applicant Builder takes as input a json file with the fields to request as well as the conditions.
 From this file it will construct the query, execute it and return the result.
 
+![alt text](doc/images/EDUCTIVE_ERP.jpg "Description goes here")
+
 ## Installation
 
-- Install the vendor package
+### Install the vendor package
 ```
 composer require littlerobinson/query-builder-bundle
 ```
 
-- Create the route 
+### Enable the Bundle
+```php
+// app/AppKernel.php
 
-Use the bundle route :
+class AppKernel extends Kernel
+{
+    public function registerBundles()
+    {
+        $bundles = array(
+            // ...
+            new Littlerobinson\QueryBuilderBundle\LittlerobinsonQueryBuilderBundle(),
+        );
+
+        // ...
+    }
+}
+```
+
+### Routing 
+
+#### Load the bundle route
 
 ```
 # /app/config/routing.yml
@@ -27,7 +47,7 @@ LittlerobinsonQueryBuilderBundle:
     prefix:   /querybuilder
 ```
 
-Or Create your own controller and view (with annotation) :
+#### Or create your own controller and view (with annotation)
 
 ```php
 # /AppBundle/Controller/YourController.php
@@ -38,7 +58,9 @@ Or Create your own controller and view (with annotation) :
  */
 public function indexAction()
 {
-    return $this->render('querybuilder/index.html.twig');
+    return $this->render('LittlerobinsonQueryBuilderBundle:QueryBuilder:query_layout.html.twig', array(
+        'queryPath' => '/querybuilder/query' /// Optionnal if you want to change the query route
+    ));
 }
 
 /**
@@ -52,9 +74,60 @@ public function queryAction()
     $run->execute();
     return new Response();
 }
+
+/**
+ * Method for create config file
+ * @Method("GET")
+ * @Route("/querybuilder/writeconfig", name="query_builder_write_config")
+ * @return Response
+ */
+public function writeDatabaseYamlConfigAction()
+{
+    $run                           = RunQueryBuilder::getInstance($this->container);
+    $_POST['action_query_builder'] = 'write_database_yaml_config';
+    $run->execute();
+    return new Response();
+}
 ```
 
-And customize the template :
+### Create the symlink assets.
+
+```
+php bin/console assets:install --symlink
+```
+
+### Add bundle configuration.
+```
+# /app/config/config.yml
+
+littlerobinson_query_builder:
+    database:
+        title: Software name
+        is_dev_mode: false
+        config_path: database-config.yml
+        file_name: querybuilder_db_name
+        params:
+            driver: pdo_mysql
+            host: '%database_host%'
+            port: '%database_port%'
+            dbname: '%database_name%'
+            user: '%database_user%'
+            password: '%database_password%'
+            charset: utf8mb4
+    user: { name: user_id, type: cookie }
+    association: { name: group_id, type: cookie }
+    rules: # You can also set to null
+        user_id: { type: cookie } 
+    security: # You can also set to null
+        database:
+            post: post.user
+```
+### Set restriction (cookie or session).
+```
+user_id = 1 OR user_id = [1,2]
+```
+
+### Customize the template.
 
 ```twig
 # /app/Resources/views/index.html.twig
@@ -93,43 +166,28 @@ And customize the template :
 {% endblock %}
 ```
 
+### Extra blockk.
 
+You can choose to modify or not display the save block and the request block
 
+```twig
+# /app/Resources/views/index.html.twig
+...
+{% save_block %}{% endblock %}
+...
+{% request_block %}{% endblock %}
+...
+```
 
-- Create the symlink for assets
-```
-php bin/console assets:install --symlink
-```
+### Change the query path.
 
-- Add configuration
-```
-# /app/config/config.yml
-
-littlerobinson_query_builder:
-    database:
-        title: Software name
-        is_dev_mode: false
-        config_path: database-config.yml
-        file_name: querybuilder_db_name
-        params:
-            driver: pdo_mysql
-            host: 127.0.0.1
-            port: 3306
-            user: root
-            password: root
-            dbname: database_name
-            charset: utf8mb4
-    user: { name: user_id, type: cookie }
-    association: { name: group_id, type: cookie }
-    rules:
-        user_id: { type: cookie }
-    security:
-        database:
-            post: post.user
-```
-- Set restriction (cookie or session)
-```
-user_id = 1 OR user_id = [1,2]
+```twig
+# /app/Resources/views/index.html.twig
+{% block query_path %}
+    <script>
+        let queryPath = '/querybuilder/query';
+    </script>
+{% endblock %}
 ```
 
 ### Configuration file

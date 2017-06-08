@@ -18,8 +18,6 @@
 </head>
 <body>
 
-{% block extra %}{% endblock %}
-
 {% verbatim %}
 <!-- component for select template -->
 <script type="text/x-template" id="select-item">
@@ -179,9 +177,16 @@
     </div>
 </script>
 
+{% endverbatim %}
+
+{% block extra %}{% endblock %}
+
+{% verbatim %}
+
 <div class="container">
     <div class="row">
         <div id="app-request">
+
 
             <div v-show="loading" id="spinner-loading">
                 <div class="cssload-container">
@@ -192,8 +197,6 @@
 
             <div v-show="!loading">
                 <div>
-                    <h1>Requêteur</h1>
-                    <hr>
                     <div>
                         <transition name="fade" appear hidden>
                             <div v-if="message" v-for="(item, key) in message">
@@ -243,19 +246,6 @@
                                                 :items="items">
                                         </select-item>
                                     </div>
-                                    <div class="panel-footer alert-danger">
-                                        <strong>Liste des tables séléctionnées : </strong><br>
-                                        <ul id="repeat-object">
-                                            <li v-for="value in selectTables">
-                                                <div v-if="dbObj[value.table]._table_translation">
-                                                    {{ dbObj[value.table]._table_translation }}
-                                                </div>
-                                                <div v-else>
-                                                    {{ value.table }}
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
                                 </div>
                             </transition>
                         </div>
@@ -278,7 +268,7 @@
                                         >
                                             Recherche
                                         </button>
-                                        <form method="post" action="/querybuilder/query">
+                                        <form method="post" :action="queryPath">
                                             <input type="hidden" name="action_query_builder" value="spreadsheet">
                                             <input type="hidden" name="columns" v-model="JSON.stringify(columns)">
                                             <input type="hidden" name="data" v-model="JSON.stringify(data)">
@@ -290,6 +280,8 @@
                             </transition>
                         </div>
 
+
+                        {% endverbatim %}{% block save_block %}{% verbatim %}
                         <div id="query" class="col-xs-2">
                             <transition name="fade" appear hidden>
                                 <div class="panel panel-default">
@@ -354,6 +346,7 @@
                                 </div>
                             </transition>
                         </div>
+                        {% endverbatim %}{% endblock %}{% verbatim %}
 
                         <!-- result -->
                         <div class="row">
@@ -384,6 +377,7 @@
                             </div>
                         </div>
 
+                        {% endverbatim %}{% block request_block %}{% verbatim %}
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="panel panel-default">
@@ -394,6 +388,7 @@
                                 </div>
                             </div>
                         </div>
+                        {% endverbatim %}{% endblock %}{% verbatim %}
 
                     </div>
                 </div>
@@ -403,6 +398,16 @@
     </div>
 </div>
 {% endverbatim %}
+
+{% block query_path %}
+    <script>
+    {% if queryPath is defined %}
+        let queryPath = '{{ queryPath }}';
+    {% else %}
+        let queryPath = '/querybuilder/query';
+    {% endif %}
+    </script>
+{% endblock %}
 
 <script src="{{ asset('bundles/littlerobinsonquerybuilder/assets/vendor/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ asset('bundles/littlerobinsonquerybuilder/assets/vendor/bootstrap/dist/js/bootstrap.min.js') }}"></script>
