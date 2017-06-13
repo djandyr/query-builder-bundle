@@ -8,7 +8,35 @@ A developer can modify certain values ​​in the configuration file to, for ex
 The applicant Builder takes as input a json file with the fields to request as well as the conditions.
 From this file it will construct the query, execute it and return the result.
 
-![querybuilder](Resources/public/images/querybuilder.png "querybuilder")
+Screenshots :
+
+ - All blocks
+ 
+ ![querybuilder](Resources/public/images/querybuilder.png "querybuilder")
+ 
+ - Select block
+ 
+ ![querybuilder](Resources/public/images/querybuilder_select.png "querybuilder")
+ 
+ - Condition block 
+  
+ ![querybuilder](Resources/public/images/querybuilder_condition.png "querybuilder")
+ 
+ - Save/load queries block 
+ 
+ ![querybuilder](Resources/public/images/querybuilder_save.png "querybuilder")
+ 
+ - Result block 
+ 
+ ![querybuilder](Resources/public/images/querybuilder_result.png "querybuilder")
+ 
+ - Query result block 
+  
+![querybuilder](Resources/public/images/querybuilder_query_result.png "querybuilder")
+
+Simple blog Mysql blog structure :
+
+![querybuilder](Resources/public/images/blog_mpd.png "querybuilder")
 
 ## Installation
 
