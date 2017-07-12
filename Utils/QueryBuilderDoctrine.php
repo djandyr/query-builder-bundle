@@ -3,6 +3,7 @@
 namespace Littlerobinson\QueryBuilderBundle\Utils;
 
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -70,17 +71,25 @@ class QueryBuilderDoctrine
         }
         $rules = null;
         foreach ($ymlConfigRules as $key => $rule) {
-            if (!array_key_exists($key, $_COOKIE)) {
-                continue;
-            }
             switch ($rule['type']) {
                 case 'cookie':
+                    if (!array_key_exists($key, $_COOKIE)) {
+                        continue;
+                    }
                     $rules[$key] = !@unserialize($_COOKIE[$key]) ? $_COOKIE[$key] : unserialize($_COOKIE[$key]);
                     break;
                 case "session":
-                    $rules[$key] = $_SESSION[$key];
+                    $session     = new Session();
+                    $sessionRule = $session->get($key);
+                    if (!$sessionRule) {
+                        continue;
+                    }
+                    $rules[$key] = !@unserialize($sessionRule) ? $sessionRule : unserialize($sessionRule);
                     break;
                 default:
+                    if (!array_key_exists($key, $_COOKIE)) {
+                        continue;
+                    }
                     $rules[$key] = !@unserialize($_COOKIE[$key]) ? $_COOKIE[$key] : unserialize($_COOKIE[$key]);
                     break;
             }
