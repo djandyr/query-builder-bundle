@@ -207,11 +207,15 @@ let request = new Vue({
                 let $field = this.conditions[$condition].field;
                 let $ruleOperator = this.conditions[$condition].ruleOperator;
                 let $value = this.conditions[$condition].value;
+                let $value2 = this.conditions[$condition].value2;
 
                 $where[$logicalOperator] = {};
                 $where[$logicalOperator][$field] = {};
                 $where[$logicalOperator][$field][$ruleOperator] = [];
                 $where[$logicalOperator][$field][$ruleOperator].push($value);
+                if('' !== $value2) {
+                    $where[$logicalOperator][$field][$ruleOperator].push($value2);
+                }
 
                 this.where.push($where);
             }
